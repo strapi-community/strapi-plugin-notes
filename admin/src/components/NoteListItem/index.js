@@ -34,14 +34,26 @@ const NoteListItem = ({ note, setActiveNote, toggleModal }) => {
 	};
 
 	return (
-		<Box padding={1} shadow="popupShadow">
+		<Box paddingTop={2} paddingBottom={2}>
 			<Flex justifyContent="space-between">
-				<Box>
-					<Typography>{note.title}</Typography>
+				<Box style={{ maxWidth: '60%' }}>
+					<Typography variant="pi" ellipsis>
+						{note.title}
+					</Typography>
 				</Box>
 				<IconButtonGroup>
-					<IconButton onClick={() => openNoteCreateModel(note)} label="Edit" icon={<Pencil />} />
-					<IconButton onClick={() => handleNoteDelete(note)} label="Delete" icon={<Trash />} />
+					<IconButton
+						style={{ border: 'none' }}
+						onClick={() => openNoteCreateModel(note)}
+						label="Edit"
+						icon={<Pencil />}
+					/>
+					<IconButton
+						style={{ border: 'none' }}
+						onClick={() => handleNoteDelete(note)}
+						label="Delete"
+						icon={<Trash />}
+					/>
 				</IconButtonGroup>
 			</Flex>
 		</Box>

@@ -10,7 +10,7 @@ const NoteListLayoutFooter = ({ entity }) => {
 
 	return (
 		<React.Fragment>
-			<TextButton label="Notes" endIcon={<Plus />} onClick={toggleModal}>
+			<TextButton label="Notes" startIcon={<Plus />} onClick={toggleModal}>
 				Add a note
 			</TextButton>
 			{isVisible && <NoteModalCreate toggleModal={toggleModal} entity={entity} />}
