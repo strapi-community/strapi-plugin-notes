@@ -12,10 +12,11 @@ import { Textarea } from '@strapi/design-system/Textarea';
 import { Button } from '@strapi/design-system/Button';
 import { Typography } from '@strapi/design-system/Typography';
 import { Stack } from '@strapi/design-system/Stack';
+import Check from '@strapi/icons/Check';
 import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
 
 const setInitialState = (note = {}) => ({
-	ModalTitle: note.id ? 'Edit Note' : 'Create Note',
+	ModalTitle: note.id ? 'Edit a note' : 'Add a note',
 	title: note.title || '',
 	content: note.content || '',
 });
@@ -65,16 +66,11 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 			<ModalBody>
 				<Stack size={2}>
 					<TextInput
-						placeholder="title"
-						label="Note Title"
+						label="Title"
 						onChange={(e) => updateState('title', e.target.value)}
 						defaultValue={values.title}
 					/>
-					<Textarea
-						placeholder="Note content"
-						label="Content"
-						onChange={(e) => updateState('content', e.target.value)}
-					>
+					<Textarea label="Content" onChange={(e) => updateState('content', e.target.value)}>
 						{values.content}
 					</Textarea>
 				</Stack>
@@ -85,7 +81,11 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 						Cancel
 					</Button>
 				}
-				endActions={<Button onClick={() => mutation.mutate()}>Save</Button>}
+				endActions={
+					<Button onClick={() => mutation.mutate()} startIcon={<Check />}>
+						Save
+					</Button>
+				}
 			/>
 		</ModalLayout>
 	);

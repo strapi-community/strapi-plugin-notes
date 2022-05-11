@@ -28,7 +28,10 @@ const NoteListLayoutContent = ({ entity }) => {
 
 	return (
 		<React.Fragment>
-			<Stack marginBottom={4} style={{ maxHeight: '150px', overflowY: 'auto' }}>
+			<Stack
+				marginBottom={4}
+				style={{ maxHeight: '150px', overflowY: 'auto', overflowX: 'hidden' }}
+			>
 				{!query.isLoading &&
 					query.data.data.notes.map((n) => (
 						<NoteListItem
