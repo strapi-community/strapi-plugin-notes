@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
-import { Stack } from '@strapi/design-system';
+import { AccordionGroup } from '@strapi/design-system';
 import { NoteModalCreate } from '../../../NoteCreateModal';
 import { requestPluginEndpoint } from '../../../../utils/requestPluginEndpoint';
 import { NoteListItem } from '../../../NoteListItem';
+import { NoteListLayoutFooter } from '../NoteListLayoutFooter';
 
 const fetchEntityNotes = async (entitySlug, entityId) => {
 	let params = {
 		'filters[entitySlug][$eq]': entitySlug,
-		'sort[createdAt]': 'ASC',
+		'sort[createdAt]': 'DESC',
+	//	'populate[0]': 'createdBy',
+	//	'populate[1]': 'updatedBy',
 	};
 	if (entityId) {
 		params['filters[entityId][$eq]'] = entityId;
@@ -28,12 +31,9 @@ const NoteListLayoutContent = ({ entity }) => {
 
 	return (
 		<React.Fragment>
-			<Stack
-				marginBottom={4}
-				style={{ maxHeight: '150px', overflowY: 'auto', overflowX: 'hidden' }}
-			>
+			<AccordionGroup footer={<NoteListLayoutFooter entity={entity} />} marginBottom={4}>
 				{!query.isLoading &&
-					query.data.data.notes.map((n) => (
+					query.data.data.map((n) => (
 						<NoteListItem
 							key={n.id}
 							note={n}
@@ -41,7 +41,7 @@ const NoteListLayoutContent = ({ entity }) => {
 							toggleModal={toggleModal}
 						/>
 					))}
-			</Stack>
+			</AccordionGroup>
 			{isVisible && <NoteModalCreate toggleModal={toggleModal} entity={entity} note={activeNote} />}
 		</React.Fragment>
 	);

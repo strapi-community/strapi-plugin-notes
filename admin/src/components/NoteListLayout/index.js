@@ -4,7 +4,6 @@ import { get } from 'lodash';
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import { Box } from '@strapi/design-system';
 import { NoteListLayoutHeader } from './components/NoteListLayoutHeader';
-import { NoteListLayoutFooter } from './components/NoteListLayoutFooter';
 import { NoteListLayoutContent } from './components/NoteListLayoutContent';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -28,7 +27,6 @@ const NoteListLayout = () => {
 			<Box paddingTop={4}>
 				<NoteListLayoutHeader />
 				<NoteListLayoutContent entity={entity} />
-				<NoteListLayoutFooter entity={entity} />
 			</Box>
 		</QueryClientProvider>
 	);
