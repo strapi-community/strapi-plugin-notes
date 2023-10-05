@@ -1,6 +1,10 @@
 'use strict';
 
+const { pluginId } = require('../utils/pluginId');
+
 const { getPluginService } = require('../utils/getPluginService');
+
+const uid = `plugin::${pluginId}.note`;
 
 module.exports = ({ strapi }) => ({
 	/**
@@ -10,8 +14,30 @@ module.exports = ({ strapi }) => ({
 	 */
 	async find(ctx) {
 		const notes = await getPluginService(strapi, 'noteService').find(ctx.query);
+		const query = strapi.db.query(uid);
 
-		ctx.send({ data: { notes } });
+		await Promise.all(
+            notes.map(async (item, index) => {
+                const foundItem = await query.findOne({
+                    where: {
+                        id: item.id,
+                    },
+                    populate: ['createdBy', 'updatedBy'],
+                });
+				notes[index].createdBy = {
+					id: foundItem.createdBy.id,
+					firstname: foundItem.createdBy.firstname,
+					lastname: foundItem.createdBy.lastname,
+				};
+				notes[index].updatedBy = {
+					id: foundItem.updatedBy.id,
+					firstname: foundItem.updatedBy.firstname,
+					lastname: foundItem.updatedBy.lastname,
+				}; 
+            })
+        );
+
+		ctx.send({ data: notes });
 	},
 
 	/**
@@ -21,8 +47,9 @@ module.exports = ({ strapi }) => ({
 	 */
 	async create(ctx) {
 		const { body } = ctx.request;
+		body['created_by_id'] = ctx.state.user.id;
+		body['updated_by_id'] = ctx.state.user.id;
 		const createdNote = await getPluginService(strapi, 'noteService').create(body);
-
 		ctx.send({ data: { note: createdNote } });
 	},
 
@@ -52,6 +79,7 @@ module.exports = ({ strapi }) => ({
 	async update(ctx) {
 		const { id } = ctx.params;
 		const { body } = ctx.request;
+		body['updated_by_id'] = ctx.state.user.id;
 		const note = await getPluginService(strapi, 'noteService').findOne(id);
 
 		if (!note) {
