@@ -15,13 +15,13 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 	const [values, setValues] = useState(setInitialState(note));
 	const queryClient = useQueryClient();
 
-	const handleNoteUpsert = () => {
+	const handleNoteUpsert = async () => {
 		const method = note.id ? 'PUT' : 'POST';
 		let endpoint = 'notes';
 		if (note.id) {
 			endpoint += '/' + note.id;
 		}
-		requestPluginEndpoint(endpoint, {
+		await requestPluginEndpoint(endpoint, {
 			method,
 			body: {
 				title: values.title,
@@ -30,7 +30,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 				entitySlug: entity.slug,
 			},
 		});
-		toggleModal();
+		await toggleModal();
 	};
 
 	const updateState = (key, value) => {
@@ -42,7 +42,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 
 	const mutation = useMutation(handleNoteUpsert, {
 		onSuccess: () => {
-			queryClient.invalidateQueries('entity-notes');
+			queryClient.fetchQuery('entity-notes');
 		},
 	});
 
