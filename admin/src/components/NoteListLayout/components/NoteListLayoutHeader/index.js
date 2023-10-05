@@ -1,7 +1,5 @@
 import React from 'react';
-import { Box } from '@strapi/design-system/Box';
-import { Divider } from '@strapi/design-system/Divider';
-import { Typography } from '@strapi/design-system/Typography';
+import { Box, Divider, Typography } from '@strapi/design-system';
 
 const NoteListLayoutHeader = () => {
 	return (

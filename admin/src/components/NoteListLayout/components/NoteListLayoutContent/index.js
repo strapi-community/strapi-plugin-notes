@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
-import { Stack } from '@strapi/design-system/Stack';
+import { Stack } from '@strapi/design-system';
 import { NoteModalCreate } from '../../../NoteCreateModal';
 import { requestPluginEndpoint } from '../../../../utils/requestPluginEndpoint';
 import { NoteListItem } from '../../../NoteListItem';

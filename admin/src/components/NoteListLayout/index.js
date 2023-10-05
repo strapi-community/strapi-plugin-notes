@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import _get from 'lodash/get';
+import { get } from 'lodash';
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
-import { Box } from '@strapi/design-system/Box';
+import { Box } from '@strapi/design-system';
 import { NoteListLayoutHeader } from './components/NoteListLayoutHeader';
 import { NoteListLayoutFooter } from './components/NoteListLayoutFooter';
 import { NoteListLayoutContent } from './components/NoteListLayoutContent';
@@ -18,7 +18,7 @@ const client = new QueryClient({
 
 const NoteListLayout = () => {
 	const params = useParams();
-	const id = _get(params, 'id', null);
+	const id = get(params, 'id', null);
 	const currentEntityId = id;
 	const { slug } = useCMEditViewDataManager();
 

@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box } from '@strapi/design-system/Box';
-import { Flex } from '@strapi/design-system/Flex';
-import Trash from '@strapi/icons/Trash';
-import Pencil from '@strapi/icons/Pencil';
-import { Typography } from '@strapi/design-system/Typography';
-import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton';
+import { Trash, Pencil } from '@strapi/icons';
+import { Typography, Flex, Box, IconButton, IconButtonGroup } from '@strapi/design-system';
 import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
 
 import { useMutation, useQueryClient } from 'react-query';

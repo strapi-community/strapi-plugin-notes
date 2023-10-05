@@ -1,18 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from 'react-query';
-import {
-	ModalLayout,
-	ModalBody,
-	ModalHeader,
-	ModalFooter,
-} from '@strapi/design-system/ModalLayout';
-import { TextInput } from '@strapi/design-system/TextInput';
-import { Textarea } from '@strapi/design-system/Textarea';
-import { Button } from '@strapi/design-system/Button';
-import { Typography } from '@strapi/design-system/Typography';
-import { Stack } from '@strapi/design-system/Stack';
-import Check from '@strapi/icons/Check';
+import { TextInput, Textarea, Button, Typography, Stack, ModalLayout, ModalBody, ModalHeader, ModalFooter,  } from '@strapi/design-system';
+import { Check } from '@strapi/icons';
 import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
 
 const setInitialState = (note = {}) => ({
