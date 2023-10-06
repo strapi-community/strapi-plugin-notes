@@ -17,25 +17,27 @@ module.exports = ({ strapi }) => ({
 		const query = strapi.db.query(uid);
 
 		await Promise.all(
-            notes.map(async (item, index) => {
-                const foundItem = await query.findOne({
-                    where: {
-                        id: item.id,
-                    },
-                    populate: ['createdBy', 'updatedBy'],
-                });
-				notes[index].createdBy = {
-					id: foundItem.createdBy.id,
-					firstname: foundItem.createdBy.firstname,
-					lastname: foundItem.createdBy.lastname,
-				};
-				notes[index].updatedBy = {
-					id: foundItem.updatedBy.id,
-					firstname: foundItem.updatedBy.firstname,
-					lastname: foundItem.updatedBy.lastname,
-				}; 
-            })
-        );
+			notes.map(async (item, index) => {
+				const foundItem = await query.findOne({
+					where: {
+						id: item.id,
+					},
+					populate: ['createdBy', 'updatedBy'],
+				});
+				if (foundItem.createdBy)
+					notes[index].createdBy = {
+						id: foundItem.createdBy.id,
+						firstname: foundItem.createdBy.firstname,
+						lastname: foundItem.createdBy.lastname,
+					};
+				if (foundItem.updatedBy)
+					notes[index].updatedBy = {
+						id: foundItem.updatedBy.id,
+						firstname: foundItem.updatedBy.firstname,
+						lastname: foundItem.updatedBy.lastname,
+					};
+			})
+		);
 
 		ctx.send({ data: notes });
 	},
