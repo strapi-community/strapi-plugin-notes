@@ -6,31 +6,18 @@ import Trash from '@strapi/icons/Trash';
 import Pencil from '@strapi/icons/Pencil';
 import { Typography } from '@strapi/design-system/Typography';
 import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton';
-import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
-
-import { useMutation, useQueryClient } from 'react-query';
-
-const deleteNote = (id) => {
-	requestPluginEndpoint('notes/' + id, {
-		method: 'DELETE',
-	});
-};
+import { useNote } from '../../hooks/useNote';
 
 const NoteListItem = ({ note, setActiveNote, toggleModal }) => {
-	const queryClient = useQueryClient();
+	const { deleteNote } = useNote();
 
 	const openNoteCreateModel = () => {
 		setActiveNote(note);
 		toggleModal();
 	};
-	const mutation = useMutation(deleteNote, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('entity-notes');
-		},
-	});
 
 	const handleNoteDelete = (note) => {
-		mutation.mutate(note.id);
+		deleteNote({ id: note.id });
 	};
 
 	return (

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useMutation, useQueryClient } from 'react-query';
 import {
 	ModalLayout,
 	ModalBody,
@@ -13,50 +12,45 @@ import { Button } from '@strapi/design-system/Button';
 import { Typography } from '@strapi/design-system/Typography';
 import { Stack } from '@strapi/design-system/Stack';
 import Check from '@strapi/icons/Check';
-import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
+import { useNote } from '../../hooks/useNote';
 
 const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 	const [values, setValues] = useState(note);
-	const queryClient = useQueryClient();
+	const { createNote, updateNote } = useNote();
 
-	const handleNoteUpsert = () => {
-		const method = note.id ? 'PUT' : 'POST';
-		let endpoint = 'notes';
-		if (note.id) {
-			endpoint += '/' + note.id;
-		}
-		requestPluginEndpoint(endpoint, {
-			method,
-			body: {
-				data: {
+	const handleNoteUpsert = async () => {
+		try {
+			if (!note.id) {
+				await createNote({
 					title: values.attributes.title,
 					content: values.attributes.content,
 					entityId: entity.id,
 					entitySlug: entity.slug,
-				},
-			},
-		});
+				});
+			} else {
+				await updateNote({
+					id: note.id,
+					body: {
+						title: values.attributes.title,
+						content: values.attributes.content,
+					},
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
 		toggleModal();
 	};
 
 	const updateState = (key, value) => {
-		let updatedNote = {
-			attributes: {
-				[key]: value,
-			},
-		};
-
-		setValues((prev) => ({
-			...prev,
-			...updatedNote,
-		}));
+		setValues({
+			...values,
+			attributes:{
+				...values.attributes,
+				[key]:value
+			}
+		});
 	};
-
-	const mutation = useMutation(handleNoteUpsert, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('entity-notes');
-		},
-	});
 
 	return (
 		<ModalLayout onClose={toggleModal} labelledBy="title">
@@ -72,9 +66,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 						onChange={(e) => updateState('title', e.target.value)}
 						defaultValue={values.id ? values.attributes.title : ''}
 					/>
-					<Textarea label="Content" onChange={(e) => updateState('content', e.target.value)}>
-						{values.id ? values.attributes.content : ''}
-					</Textarea>
+					<Textarea label="Content" onChange={(e) => updateState('content', e.target.value)} value={values.id ? values.attributes.content : ''}></Textarea>
 				</Stack>
 			</ModalBody>
 			<ModalFooter
@@ -84,7 +76,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 					</Button>
 				}
 				endActions={
-					<Button onClick={() => mutation.mutate()} startIcon={<Check />}>
+					<Button onClick={handleNoteUpsert} startIcon={<Check />}>
 						Save
 					</Button>
 				}
