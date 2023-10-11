@@ -15,14 +15,8 @@ import { Stack } from '@strapi/design-system/Stack';
 import Check from '@strapi/icons/Check';
 import { requestPluginEndpoint } from '../../utils/requestPluginEndpoint';
 
-const setInitialState = (note = {}) => ({
-	ModalTitle: note.id ? 'Edit a note' : 'Add a note',
-	title: note.title || '',
-	content: note.content || '',
-});
-
 const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
-	const [values, setValues] = useState(setInitialState(note));
+	const [values, setValues] = useState(note);
 	const queryClient = useQueryClient();
 
 	const handleNoteUpsert = () => {
@@ -34,19 +28,27 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 		requestPluginEndpoint(endpoint, {
 			method,
 			body: {
-				title: values.title,
-				content: values.content,
-				entityId: entity.id,
-				entitySlug: entity.slug,
+				data: {
+					title: values.attributes.title,
+					content: values.attributes.content,
+					entityId: entity.id,
+					entitySlug: entity.slug,
+				},
 			},
 		});
 		toggleModal();
 	};
 
 	const updateState = (key, value) => {
+		let updatedNote = {
+			attributes: {
+				[key]: value,
+			},
+		};
+
 		setValues((prev) => ({
 			...prev,
-			[key]: value,
+			...updatedNote,
 		}));
 	};
 
@@ -60,7 +62,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 		<ModalLayout onClose={toggleModal} labelledBy="title">
 			<ModalHeader>
 				<Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
-					{values.ModalTitle}
+					{values.id ? 'Edit a note' : 'Add a note'}
 				</Typography>
 			</ModalHeader>
 			<ModalBody>
@@ -68,10 +70,10 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 					<TextInput
 						label="Title"
 						onChange={(e) => updateState('title', e.target.value)}
-						defaultValue={values.title}
+						defaultValue={values.id ? values.attributes.title : ''}
 					/>
 					<Textarea label="Content" onChange={(e) => updateState('content', e.target.value)}>
-						{values.content}
+						{values.id ? values.attributes.content : ''}
 					</Textarea>
 				</Stack>
 			</ModalBody>
