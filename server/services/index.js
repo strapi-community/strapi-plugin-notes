@@ -1,7 +1,7 @@
 'use strict';
 
-const noteService = require('./note-service');
+const note = require('./note-service');
 
 module.exports = {
-	noteService,
+	note,
 };

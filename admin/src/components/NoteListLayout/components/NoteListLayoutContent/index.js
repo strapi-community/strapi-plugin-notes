@@ -33,7 +33,7 @@ const NoteListLayoutContent = ({ entity }) => {
 				style={{ maxHeight: '150px', overflowY: 'auto', overflowX: 'hidden' }}
 			>
 				{!query.isLoading &&
-					query.data.data.notes.map((n) => (
+					query.data.data.map((n) => (
 						<NoteListItem
 							key={n.id}
 							note={n}

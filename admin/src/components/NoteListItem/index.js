@@ -38,7 +38,7 @@ const NoteListItem = ({ note, setActiveNote, toggleModal }) => {
 			<Flex justifyContent="space-between">
 				<Box style={{ maxWidth: '60%' }}>
 					<Typography variant="pi" ellipsis>
-						{note.title}
+						{note.attributes.title}
 					</Typography>
 				</Box>
 				<IconButtonGroup>
