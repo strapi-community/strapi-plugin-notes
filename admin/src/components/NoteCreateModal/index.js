@@ -45,10 +45,10 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 	const updateState = (key, value) => {
 		setValues({
 			...values,
-			attributes:{
+			attributes: {
 				...values.attributes,
-				[key]:value
-			}
+				[key]: value,
+			},
 		});
 	};
 
@@ -66,7 +66,11 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 						onChange={(e) => updateState('title', e.target.value)}
 						defaultValue={values.id ? values.attributes.title : ''}
 					/>
-					<Textarea label="Content" onChange={(e) => updateState('content', e.target.value)} value={values.id ? values.attributes.content : ''}></Textarea>
+					<Textarea
+						label="Content"
+						onChange={(e) => updateState('content', e.target.value)}
+						defaultValue={values.id ? values.attributes.content : ''}
+					></Textarea>
 				</Stack>
 			</ModalBody>
 			<ModalFooter
