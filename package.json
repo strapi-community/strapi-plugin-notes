@@ -2,7 +2,7 @@
 	"$schema": "https://json.schemastore.org/package",
 	"name": "strapi-plugin-notes",
 	"version": "1.0.1",
-	"description": "A plugin for Strapi Headless CMS that provides the ability to add notes to entity records.",
+	"description": "A plugin for Strapi CMS that provides the ability to add notes to entity records.",
 	"scripts": {
 		"lint": "eslint . --fix",
 		"format": "prettier --write **/*.{ts,js,json,yml}"
@@ -25,19 +25,32 @@
 	"bugs": {
 		"url": "https://github.com/ComfortablyCoding/strapi-plugin-notes/issues"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@strapi/strapi": "^4.14.4",
+		"@strapi/design-system": "^1.12.0",
+		"@strapi/helper-plugin": "^4.14.4",
+		"@strapi/icons": "^1.12.0",
+		"prop-types": "^15.8.1"
+	},
 	"devDependencies": {
-		"@babel/core": "^7.17.2",
-		"@babel/eslint-parser": "^7.17.0",
-		"@babel/preset-react": "^7.16.7",
-		"eslint": "^8.9.0",
-		"eslint-config-prettier": "^8.3.0",
+		"@babel/core": "^7.23.2",
+		"@babel/eslint-parser": "^7.22.15",
+		"@babel/preset-react": "^7.22.15",
+		"eslint": "^8.51.0",
+		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-react": "^7.28.0",
-		"prettier": "^2.5.1"
+		"eslint-plugin-react": "^7.33.2",
+		"prettier": "^3.0.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^5.3.4",
+		"styled-components": "^5.3.6"
 	},
 	"peerDependencies": {
-		"@strapi/strapi": "^4.0.7"
+		"react": "^17.0.0 || ^18.0.0",
+		"react-dom": "^17.0.0 || ^18.0.0",
+		"react-router-dom": "^5.3.4",
+		"styled-components": "^5.3.6"
 	},
 	"strapi": {
 		"displayName": "Notes",
@@ -46,7 +59,7 @@
 		"kind": "plugin"
 	},
 	"engines": {
-		"node": ">=12.x. <=16.x.x",
+		"node": ">=16.0.0 <=20.x.x",
 		"npm": ">=6.0.0"
 	},
 	"keywords": [
