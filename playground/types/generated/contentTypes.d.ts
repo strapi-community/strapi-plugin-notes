@@ -413,39 +413,6 @@ export interface PluginUploadFolder extends Schema.CollectionType {
 	};
 }
 
-export interface PluginEntityNotesNote extends Schema.CollectionType {
-	collectionName: 'notes';
-	info: {
-		singularName: 'note';
-		pluralName: 'notes';
-		displayName: 'notes';
-	};
-	options: {
-		draftAndPublish: false;
-		comment: '';
-	};
-	pluginOptions: {
-		'content-manager': {
-			visible: false;
-		};
-		'content-type-builder': {
-			visible: false;
-		};
-	};
-	attributes: {
-		title: Attribute.String;
-		content: Attribute.Text;
-		entityId: Attribute.Integer;
-		entitySlug: Attribute.String;
-		createdAt: Attribute.DateTime;
-		updatedAt: Attribute.DateTime;
-		createdBy: Attribute.Relation<'plugin::entity-notes.note', 'oneToOne', 'admin::user'> &
-			Attribute.Private;
-		updatedBy: Attribute.Relation<'plugin::entity-notes.note', 'oneToOne', 'admin::user'> &
-			Attribute.Private;
-	};
-}
-
 export interface PluginUsersPermissionsPermission extends Schema.CollectionType {
 	collectionName: 'up_permissions';
 	info: {
@@ -629,7 +596,6 @@ declare module '@strapi/types' {
 			'api::article.article': ApiArticleArticle;
 			'plugin::upload.file': PluginUploadFile;
 			'plugin::upload.folder': PluginUploadFolder;
-			'plugin::entity-notes.note': PluginEntityNotesNote;
 			'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
 			'plugin::users-permissions.role': PluginUsersPermissionsRole;
 			'plugin::users-permissions.user': PluginUsersPermissionsUser;
