@@ -1,7 +1,7 @@
 import pluginPkg from '../../package.json';
 import { pluginId } from './pluginId';
 import Initializer from './components/Initializer';
-import { NoteListLayout } from './components/NoteListLayout';
+import NoteListLayout from './components/NoteListLayout';
 
 const name = pluginPkg.strapi.name;
 
