@@ -14,16 +14,18 @@ import {
 import { Check } from '@strapi/icons';
 import { useNote } from '../../hooks/useNote';
 
-const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
-	const [values, setValues] = useState(note);
+const NoteModal = ({ entity, note = {}, toggleModal }) => {
+	const [entityNote, setEntityNote] = useState(note);
 	const { createNote, updateNote } = useNote();
+
+	const isExistingNote = entityNote.id;
 
 	const handleNoteUpsert = async () => {
 		try {
-			if (!note.id) {
+			if (!isExistingNote) {
 				await createNote({
-					title: values.attributes.title,
-					content: values.attributes.content,
+					title: entityNote.attributes.title,
+					content: entityNote.attributes.content,
 					entityId: entity.id,
 					entitySlug: entity.slug,
 				});
@@ -31,22 +33,22 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 				await updateNote({
 					id: note.id,
 					body: {
-						title: values.attributes.title,
-						content: values.attributes.content,
+						title: entityNote.attributes.title,
+						content: entityNote.attributes.content,
 					},
 				});
 			}
 		} catch (error) {
 			console.error(error);
 		}
-		toggleModal();
+		toggleModal(false);
 	};
 
 	const updateState = (key, value) => {
-		setValues({
-			...values,
+		setEntityNote({
+			...entityNote,
 			attributes: {
-				...values.attributes,
+				...entityNote.attributes,
 				[key]: value,
 			},
 		});
@@ -56,7 +58,7 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 		<ModalLayout onClose={toggleModal} labelledBy="title">
 			<ModalHeader>
 				<Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
-					{values.id ? 'Edit a note' : 'Add a note'}
+					{isExistingNote ? 'Edit a note' : 'Add a note'}
 				</Typography>
 			</ModalHeader>
 			<ModalBody>
@@ -64,12 +66,12 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 					<TextInput
 						label="Title"
 						onChange={(e) => updateState('title', e.target.value)}
-						defaultValue={values.id ? values.attributes.title : ''}
+						defaultValue={isExistingNote ? entityNote.attributes.title : ''}
 					/>
 					<Textarea
 						label="Content"
 						onChange={(e) => updateState('content', e.target.value)}
-						defaultValue={values.id ? values.attributes.content : ''}
+						defaultValue={isExistingNote ? entityNote.attributes.content : ''}
 					></Textarea>
 				</Stack>
 			</ModalBody>
@@ -89,10 +91,10 @@ const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {
 	);
 };
 
-NoteModalCreate.propTypes = {
+NoteModal.propTypes = {
 	toggleModal: PropTypes.func.isRequired,
 	note: PropTypes.object,
 	entity: PropTypes.object.isRequired,
 };
 
-export default NoteModalCreate;
+export default NoteModal;
