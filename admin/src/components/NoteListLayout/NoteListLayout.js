@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import { Box, Divider, Typography, Button, Stack, Loader } from '@strapi/design-system';
 import { Plus } from '@strapi/icons';
+import { getTrad } from '../../utils';
 import { useNote } from '../../hooks/useNote';
 import NoteModal from '../NoteModal';
 import NoteListItem from '../NoteListItem';
@@ -9,6 +11,7 @@ import NoteListItem from '../NoteListItem';
 const NoteListLayout = () => {
 	const { isCreatingEntry, modifiedData, slug } = useCMEditViewDataManager();
 	const { getNotes } = useNote();
+	const { formatMessage } = useIntl();
 	const [isNoteModalVisible, setIsNoteModalVisible] = useState(false);
 	const [activeNote, setActiveNote] = useState({});
 	const [notes, setNotes] = useState([]);
@@ -46,13 +49,21 @@ const NoteListLayout = () => {
 	return (
 		<Box paddingTop={8}>
 			<Typography variant="sigma" textColor="neutral600">
-				Notes
+				{formatMessage({
+					id: getTrad('plugin.name'),
+					defaultMessage: 'Notes',
+				})}
 			</Typography>
 			<Box marginTop={2} marginBottom={4}>
 				<Divider />
 			</Box>
 			{isLoading ? (
-				<Loader small>Loading content...</Loader>
+				<Loader small>
+					{formatMessage({
+						id: getTrad('notes.loading'),
+						defaultMessage: 'Loading Content ...',
+					})}
+				</Loader>
 			) : (
 				<Stack spacing={2} style={{ maxHeight: '150px', overflowY: 'auto', overflowX: 'hidden' }}>
 					{!isLoading &&

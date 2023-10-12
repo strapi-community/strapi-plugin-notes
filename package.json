@@ -26,11 +26,12 @@
 		"url": "https://github.com/ComfortablyCoding/strapi-plugin-notes/issues"
 	},
 	"dependencies": {
-		"@strapi/strapi": "^4.14.4",
 		"@strapi/design-system": "^1.12.0",
 		"@strapi/helper-plugin": "^4.14.4",
 		"@strapi/icons": "^1.12.0",
-		"prop-types": "^15.8.1"
+		"@strapi/strapi": "^4.14.4",
+		"prop-types": "^15.8.1",
+		"react-intl": "^6.4.7"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.2",

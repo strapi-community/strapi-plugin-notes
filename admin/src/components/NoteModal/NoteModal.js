@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
 	ModalLayout,
@@ -13,10 +14,12 @@ import {
 } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import { useNote } from '../../hooks/useNote';
+import { getTrad } from '../../utils';
 
 const NoteModal = ({ entity, note = {}, toggleModal }) => {
 	const [entityNote, setEntityNote] = useState(note);
 	const { createNote, updateNote } = useNote();
+	const { formatMessage } = useIntl();
 
 	const isExistingNote = entityNote.id;
 
@@ -58,7 +61,10 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 		<ModalLayout onClose={toggleModal} labelledBy="title">
 			<ModalHeader>
 				<Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
-					{isExistingNote ? 'Edit a note' : 'Add a note'}
+					{formatMessage({
+						id: getTrad(`note.modal.${isExistingNote ? 'existing' : 'new'}.title`),
+						defaultMessage: isExistingNote ? 'Edit a note' : 'Add a note',
+					})}
 				</Typography>
 			</ModalHeader>
 			<ModalBody>
@@ -78,12 +84,18 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 			<ModalFooter
 				startActions={
 					<Button onClick={toggleModal} variant="tertiary">
-						Cancel
+						{formatMessage({
+							id: getTrad('note.modal.actions.cancel'),
+							defaultMessage: 'Cancel',
+						})}
 					</Button>
 				}
 				endActions={
 					<Button onClick={handleNoteUpsert} startIcon={<Check />}>
-						Save
+						{formatMessage({
+							id: getTrad('note.modal.actions.save'),
+							defaultMessage: 'Save',
+						})}
 					</Button>
 				}
 			/>
