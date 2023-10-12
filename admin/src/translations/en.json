@@ -1,1 +1,8 @@
-{}
+{
+	"plugin.name": "Notes",
+	"notes.loading": "Loading Content ...",
+	"note.modal.new.title": "Add a note",
+	"note.modal.existing.title": "Edit a note",
+	"note.modal.actions.save": "Save",
+	"note.modal.actions.cancel": "Cancel"
+}
