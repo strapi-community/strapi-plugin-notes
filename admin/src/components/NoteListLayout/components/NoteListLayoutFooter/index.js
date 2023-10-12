@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { TextButton } from '@strapi/design-system/TextButton';
-import Plus from '@strapi/icons/Plus';
+import { TextButton } from '@strapi/design-system';
+import { Plus } from '@strapi/icons';
 import { NoteModalCreate } from '../../../NoteCreateModal';
 const NoteListLayoutFooter = ({ entity }) => {
 	const [isVisible, setIsVisible] = useState(false);

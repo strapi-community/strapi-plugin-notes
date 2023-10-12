@@ -5,13 +5,13 @@ import {
 	ModalBody,
 	ModalHeader,
 	ModalFooter,
-} from '@strapi/design-system/ModalLayout';
-import { TextInput } from '@strapi/design-system/TextInput';
-import { Textarea } from '@strapi/design-system/Textarea';
-import { Button } from '@strapi/design-system/Button';
-import { Typography } from '@strapi/design-system/Typography';
-import { Stack } from '@strapi/design-system/Stack';
-import Check from '@strapi/icons/Check';
+	TextInput,
+	Textarea,
+	Button,
+	Typography,
+	Stack,
+} from '@strapi/design-system';
+import { Check } from '@strapi/icons';
 import { useNote } from '../../hooks/useNote';
 
 const NoteModalCreate = ({ toggleModal, note = {}, entity }) => {

@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box } from '@strapi/design-system/Box';
-import { Flex } from '@strapi/design-system/Flex';
-import Trash from '@strapi/icons/Trash';
-import Pencil from '@strapi/icons/Pencil';
-import { Typography } from '@strapi/design-system/Typography';
-import { IconButton, IconButtonGroup } from '@strapi/design-system/IconButton';
+import { Box, Flex, Typography, IconButton, IconButtonGroup } from '@strapi/design-system';
+import { Trash, Pencil } from '@strapi/icons';
 import { useNote } from '../../hooks/useNote';
 
 const NoteListItem = ({ note, setActiveNote, toggleModal }) => {

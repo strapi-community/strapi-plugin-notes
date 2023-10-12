@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Stack } from '@strapi/design-system/Stack';
+import { Stack } from '@strapi/design-system';
 import { NoteModalCreate } from '../../../NoteCreateModal';
 import { NoteListItem } from '../../../NoteListItem';
 import { useNote } from '../../../../hooks/useNote';
