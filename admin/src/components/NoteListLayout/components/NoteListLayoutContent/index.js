@@ -1,30 +1,35 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Stack } from '@strapi/design-system/Stack';
 import { NoteModalCreate } from '../../../NoteCreateModal';
-import { requestPluginEndpoint } from '../../../../utils/requestPluginEndpoint';
 import { NoteListItem } from '../../../NoteListItem';
-
-const fetchEntityNotes = async (entitySlug, entityId) => {
-	let params = {
-		'filters[entitySlug][$eq]': entitySlug,
-		'sort[createdAt]': 'ASC',
-	};
-	if (entityId) {
-		params['filters[entityId][$eq]'] = entityId;
-	}
-	return requestPluginEndpoint('notes', {
-		params,
-	});
-};
+import { useNote } from '../../../../hooks/useNote';
 
 const NoteListLayoutContent = ({ entity }) => {
+	const { getNotes } = useNote();
 	const [isVisible, setIsVisible] = useState(false);
 	const [activeNote, setActiveNote] = useState({});
+	const [notes, setNotes] = useState([]);
 	const toggleModal = () => setIsVisible((prev) => !prev);
 
-	const query = useQuery('entity-notes', () => fetchEntityNotes(entity.slug, entity.id));
+	const { isLoading, data, isRefetching } = getNotes({
+		filters: {
+			entityId: entity.id,
+			entitySlug: entity.slug,
+		},
+		sort: { createdAt: 'ASC' },
+	});
+
+	// set initial data to state so its reactive
+	useEffect(() => {
+		if (!isLoading && !isRefetching) {
+			if (data.length) {
+				setNotes([...data]);
+			} else {
+				setNotes([]);
+			}
+		}
+	}, [isLoading, isRefetching]);
 
 	return (
 		<React.Fragment>
@@ -32,8 +37,8 @@ const NoteListLayoutContent = ({ entity }) => {
 				marginBottom={4}
 				style={{ maxHeight: '150px', overflowY: 'auto', overflowX: 'hidden' }}
 			>
-				{!query.isLoading &&
-					query.data.data.map((n) => (
+				{!isLoading &&
+					notes.map((n) => (
 						<NoteListItem
 							key={n.id}
 							note={n}
