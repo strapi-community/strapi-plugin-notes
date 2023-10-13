@@ -16,7 +16,7 @@ import { Check } from '@strapi/icons';
 import { useNote } from '../../hooks/useNote';
 import { getTrad } from '../../utils';
 
-const NoteModal = ({ entity, note = {}, toggleModal }) => {
+const NoteModal = ({ entity, note = {}, setIsNoteModalVisible }) => {
 	const [entityNote, setEntityNote] = useState(note);
 	const { createNote, updateNote } = useNote();
 	const { formatMessage } = useIntl();
@@ -44,7 +44,7 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 		} catch (error) {
 			console.error(error);
 		}
-		toggleModal(false);
+		setIsNoteModalVisible(false);
 	};
 
 	const updateState = (key, value) => {
@@ -58,7 +58,7 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 	};
 
 	return (
-		<ModalLayout onClose={toggleModal} labelledBy="title">
+		<ModalLayout onClose={() => setIsNoteModalVisible(false)} labelledBy="title">
 			<ModalHeader>
 				<Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
 					{formatMessage({
@@ -83,7 +83,7 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 			</ModalBody>
 			<ModalFooter
 				startActions={
-					<Button onClick={toggleModal} variant="tertiary">
+					<Button onClick={() => setIsNoteModalVisible(false)} variant="tertiary">
 						{formatMessage({
 							id: getTrad('note.modal.actions.cancel'),
 							defaultMessage: 'Cancel',
@@ -104,7 +104,7 @@ const NoteModal = ({ entity, note = {}, toggleModal }) => {
 };
 
 NoteModal.propTypes = {
-	toggleModal: PropTypes.func.isRequired,
+	setIsNoteModalVisible: PropTypes.func.isRequired,
 	note: PropTypes.object,
 	entity: PropTypes.object.isRequired,
 };

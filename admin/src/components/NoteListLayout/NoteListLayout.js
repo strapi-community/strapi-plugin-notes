@@ -83,13 +83,20 @@ const NoteListLayout = () => {
 				label="Notes"
 				startIcon={<Plus />}
 				disabled={isLoading}
-				onClick={() => setIsNoteModalVisible(true)}
+				onClick={() => {
+					setActiveNote({});
+					setIsNoteModalVisible(true);
+				}}
 				marginTop={4}
 			>
 				Add a note
 			</Button>
 			{isNoteModalVisible && (
-				<NoteModal entity={entity} note={activeNote} toggleModal={setIsNoteModalVisible} />
+				<NoteModal
+					entity={entity}
+					note={activeNote}
+					setIsNoteModalVisible={setIsNoteModalVisible}
+				/>
 			)}
 		</Box>
 	);
