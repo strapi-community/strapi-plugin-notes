@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package",
 	"name": "strapi-plugin-notes",
-	"version": "1.1.2",
+	"version": "1.1.3",
 	"description": "A plugin for Strapi CMS that provides the ability to add notes to entity records.",
 	"scripts": {
 		"lint": "eslint . --fix",
