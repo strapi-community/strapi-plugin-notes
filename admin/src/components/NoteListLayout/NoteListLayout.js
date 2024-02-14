@@ -9,23 +9,28 @@ import NoteModal from '../NoteModal';
 import NoteListItem from '../NoteListItem';
 
 const NoteListLayout = () => {
-	const { isCreatingEntry, modifiedData, slug } = useCMEditViewDataManager();
+	const entity = useCMEditViewDataManager();
+
+	if (entity.isCreatingEntry) {
+		return null;
+	}
+
+	if (!entity.modifiedData?.id) {
+		return null;
+	}
+
+	return <NoteListManager />;
+};
+
+const NoteListManager = () => {
+	const { modifiedData, slug } = useCMEditViewDataManager();
 	const { getNotes } = useNote();
 	const { formatMessage } = useIntl();
 	const [isNoteModalVisible, setIsNoteModalVisible] = useState(false);
 	const [activeNote, setActiveNote] = useState({});
 	const [notes, setNotes] = useState([]);
 
-	if (isCreatingEntry) {
-		return null;
-	}
-
-	const id = modifiedData.id || false;
-	if (!id) {
-		return null;
-	}
-
-	const entity = { id, slug };
+	const entity = { id: modifiedData.id, slug };
 
 	const { isLoading, data, isRefetching } = getNotes({
 		filters: {
